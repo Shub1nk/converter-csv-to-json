@@ -1,0 +1,7 @@
+node_modules
+
+csv
+!csv/.gitkeep
+
+json
+!json/.gitkeep
