@@ -3,9 +3,10 @@ const CSVToJSON = require("csvtojson");
 
 const pathJSON = __dirname + "/json/";
 
-const fileArray = fs.readdirSync(`${__dirname}/csv`);
+const allFiles = fs.readdirSync(`${__dirname}/csv`);
+const files = allFiles.filter(name => name !== '.gitkeep')
 
-fileArray.forEach(file => {
+files.forEach(file => {
   CSVToJSON()
     .fromFile(`${__dirname}/csv/${file}`)
     .then(source => {
