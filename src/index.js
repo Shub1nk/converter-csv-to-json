@@ -19,7 +19,7 @@ files.forEach((file) => {
   CSVToJSON()
     .fromFile(`${__dirname}/csv/${file}`)
     .then((source) => {
-      const updatedSource = source.map((item) => {
+      const updatedDesktopSource = source.map((item) => {
         const paramDate = item["Дата"]
           .replace(/(\d{2}).(\d{2}).(\d{4})/, "$3-$2-$1")
           .split("-");
@@ -30,19 +30,19 @@ files.forEach((file) => {
         };
       });
 
-      const lastDate = new Date(updatedSource[updatedSource.length - 1].d);
+      const lastDate = new Date(updatedDesktopSource[updatedDesktopSource.length - 1].d);
       const yearAgo = new Date(lastDate).setMonth(lastDate.getMonth() - YEAR);
-      const mobileSource = updatedSource.filter((item) => item.d >= yearAgo);
+      const updatedMobileSource = updatedDesktopSource.filter((item) => item.d >= yearAgo);
 
       makeIfNotExists(pathDesktopJSON);
       makeIfNotExists(pathMobileJSON);
       fs.writeFileSync(
         `${pathDesktopJSON + file.split(".")[0]}.json`,
-        JSON.stringify(updatedSource)
+        JSON.stringify({ points: updatedDesktopSource })
       );
       fs.writeFileSync(
         `${pathMobileJSON + file.split(".")[0]}.json`,
-        JSON.stringify(mobileSource)
+        JSON.stringify({ points: updatedMobileSource })
       );
     });
 });
